@@ -45,7 +45,13 @@ USER airflow
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy your DAGs to the container
-COPY dags /opt/airflow/dags
+COPY ./DAGs /opt/airflow/dags
 
 # Set the entrypoint to Airflow's default entrypoint
 ENTRYPOINT ["airflow"]
+
+# # Expose the Airflow web server port
+EXPOSE 8080
+
+# # Run Airflow scheduler and webserver
+CMD ["bash", "-c", "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver -p 8080"]
