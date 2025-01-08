@@ -55,3 +55,4 @@ ENTRYPOINT ["airflow"]
 # # Expose the Airflow web server port
 EXPOSE 8080
 
+CMD ["bash", "-c", "airflow db init"]
