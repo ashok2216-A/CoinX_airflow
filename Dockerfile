@@ -27,7 +27,7 @@
 
 
 # Use the official Apache Airflow image
- FROM apache/airflow:2.6.1-python3.8
+ FROM apache/airflow:2.6.1-python3.9
 
 # Set the working directory
 WORKDIR /opt/airflow
