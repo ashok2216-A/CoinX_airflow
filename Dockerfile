@@ -29,8 +29,6 @@
 # Use the official Apache Airflow image
 FROM apache/airflow:2.6.1-python3.9
 
-RUN apt-get update && apt-get install -y build-essential libssl-dev
-
 # Set the working directory
 WORKDIR /opt/airflow
 
