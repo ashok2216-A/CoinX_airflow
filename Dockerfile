@@ -27,7 +27,9 @@
 
 
 # Use the official Apache Airflow image
- FROM apache/airflow:2.6.1-python3.9
+FROM apache/airflow:2.6.1-python3.9
+
+RUN apt-get update && apt-get install -y build-essential libssl-dev
 
 # Set the working directory
 WORKDIR /opt/airflow
@@ -45,6 +47,7 @@ RUN pip install --upgrade pip
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade snowflake-connector-python pyOpenSSL
 
 # Copy your DAGs to the container
 COPY ./DAGs /opt/airflow/dags
