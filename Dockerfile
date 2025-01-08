@@ -27,7 +27,7 @@
 
 
 # Use the official Apache Airflow image
-FROM apache/airflow:2.5.0
+ FROM apache/airflow:2.6.1-python3.8
 
 # Set the working directory
 WORKDIR /opt/airflow
@@ -40,6 +40,8 @@ COPY requirements.txt .
 
 # Switch to airflow user
 USER airflow
+
+RUN pip install --upgrade pip
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
