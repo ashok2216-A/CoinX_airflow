@@ -55,4 +55,5 @@ ENTRYPOINT ["airflow"]
 # # Expose the Airflow web server port
 EXPOSE 8080
 
-CMD ["bash", "-c", "airflow db init"]
+RUN airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver -p 8080
+
