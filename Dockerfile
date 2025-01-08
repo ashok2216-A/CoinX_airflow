@@ -36,7 +36,7 @@ WORKDIR /opt/airflow
 COPY requirements.txt .
 
 # Create airflow user (if not already created)
-RUN useradd -ms /bin/bash airflow
+# RUN useradd -ms /bin/bash airflow
 
 # Switch to airflow user
 USER airflow
