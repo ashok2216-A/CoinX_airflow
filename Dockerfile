@@ -25,7 +25,6 @@
 # CMD ["bash", "-c", "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver -p 8080"]
 
 
-
 # Use the official Apache Airflow image
 FROM apache/airflow:2.6.1-python3.9
 
@@ -42,9 +41,11 @@ RUN pip install -r requirements.txt
 # Copy your DAGs to the container
 COPY ./dags /opt/render/project/src/dags
 
-# Copy the entrypoint script to the container and set permissions
+# Set permissions for the entrypoint script before copying
+RUN chmod +x entrypoint.sh
+
+# Copy the entrypoint script to the container
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 # Switch to airflow user
 USER airflow
@@ -54,4 +55,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose the Airflow web server port
 EXPOSE 8080
+
 
