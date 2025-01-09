@@ -11,8 +11,6 @@ if [ "$1" = "webserver" ]; then
         --role Admin \
         --email admin@example.com
     exec airflow webserver
-elif [ "$1" = "scheduler" ]; then
-    exec airflow scheduler
 else
     exec "$@"
 fi
