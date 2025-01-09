@@ -1,59 +1,21 @@
-# # Use official Apache Airflow image
-# FROM apache/airflow:2.6.1-python3.8
+FROM apache/airflow:2.7.2-python3.9
 
-# # Install dependencies
-# USER root
-# RUN apt-get update && apt-get install -y \
-#     build-essential \
-#     libpq-dev \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Install Python dependencies
-# COPY requirements.txt .
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# # Copy your DAGs to the container
-# COPY ./DAGs /opt/airflow/dags
-
-# # Set the environment variable for Airflow home
-# ENV AIRFLOW_HOME=/opt/airflow
-
-# # Expose the Airflow web server port
-# EXPOSE 8080
-
-# # Run Airflow scheduler and webserver
-# CMD ["bash", "-c", "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver -p 8080"]
-
-
-# Use the official Apache Airflow image
-FROM apache/airflow:2.6.1-python3.9
-
-# Set the working directory
-WORKDIR /opt/render/project/src/
-
-# Copy requirements.txt into the container
+# Install additional Python dependencies
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install additional Python packages if needed
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Copy DAGs
+COPY dags/ /opt/airflow/dags/
 
-# Copy your DAGs to the container
-COPY ./dags /opt/render/project/src/dags
+# Copy secrets for Google Sheets
+COPY secrets.json /opt/airflow/secrets.json
 
-# Set permissions for the entrypoint script before copying
-RUN chmod +x entrypoint.sh
+# Set environment variables for Airflow
+ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
+ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
 
-# Copy the entrypoint script to the container
-COPY entrypoint.sh /entrypoint.sh
-
-# Switch to airflow user
-USER airflow
-
-# Use the entrypoint script to start the services
-ENTRYPOINT ["/entrypoint.sh"]
-
-# Expose the Airflow web server port
+# Expose port for Airflow webserver
 EXPOSE 8080
 
-
+# Default command to start Airflow
+CMD ["webserver"]
