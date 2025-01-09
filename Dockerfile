@@ -14,6 +14,10 @@ RUN pip install --no-cache-dir \
     gspread \
     psycopg2-binary
 
+RUN pip install apache-airflow[postgres]
+
+RUN pip install -r requirements.txt
+
 # Copy your DAGs and scripts into the container
 COPY dags /opt/airflow/dags
 COPY secrets.json /opt/airflow/secrets.json
