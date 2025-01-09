@@ -70,5 +70,6 @@ COPY secrets.json /opt/airflow/secrets.json
 EXPOSE 8080
 
 # Start the Airflow web server and scheduler
-CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
+# CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
 
+CMD ["bash", "-c", "airflow db upgrade && airflow webserver -p 8080 & airflow scheduler"]
