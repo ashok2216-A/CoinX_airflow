@@ -69,7 +69,13 @@ COPY secrets.json /opt/airflow/secrets.json
 # Expose the Airflow web server port
 EXPOSE 8080
 
+CMD ["bash", "-c", "airflow db upgrade"]
+CMD ["bash", "-c", "airflow db reset"]
+CMD ["bash", "-c", "airflow db init"]
+CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
+
+
 # Start the Airflow web server and scheduler
 # CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
 
-CMD ["bash", "-c", "airflow db upgrade && airflow webserver -p 8080 & airflow scheduler"]
+# CMD ["bash", "-c", "airflow db upgrade && airflow webserver -p 8080 & airflow scheduler"]
