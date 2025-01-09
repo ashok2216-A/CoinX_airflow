@@ -29,4 +29,4 @@ WORKDIR /opt/airflow
 RUN airflow db init
 
 # Start the Airflow web server and scheduler
-CMD ["bash", "-c", "airflow webserver & airflow scheduler"]
+CMD ["bash", "-c", "airflow webserver -p 8080"]
