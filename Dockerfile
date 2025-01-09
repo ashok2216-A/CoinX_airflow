@@ -35,22 +35,19 @@ WORKDIR /opt/render/project/src/
 # Copy requirements.txt into the container
 COPY requirements.txt .
 
-# Create airflow user (if not already created)
-# RUN useradd -ms /bin/bash airflow
-
-# Switch to airflow user
-USER airflow
-
+# Install additional Python packages if needed
 RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # Copy your DAGs to the container
 COPY ./dags /opt/render/project/src/dags
 
-# Set the entrypoint to Airflow's default entrypoint
-ENTRYPOINT ["airflow"]
+# Copy the entrypoint script to the container
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# # Expose the Airflow web server port
+# Use the entrypoint script to start the services
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Expose the Airflow web server port
 EXPOSE 8080
-
-# Run Airflow scheduler and webserver
-CMD ["bash", "-c", "airflow db init & airflow webserver"]
