@@ -2,17 +2,4 @@ requests>=2.25.0,<3.0.0
 requests-oauthlib==2.0.0
 requests-toolbelt==1.0.0
 pandas==2.2.3
-apache-airflow==2.10.3
-apache-airflow-providers-cncf-kubernetes==10.0.1
-apache-airflow-providers-common-compat==1.2.2
-apache-airflow-providers-common-io==1.4.2
-apache-airflow-providers-common-sql==1.20.0
-apache-airflow-providers-fab==1.5.1
-apache-airflow-providers-ftp==3.11.1
-apache-airflow-providers-http==4.13.3
-apache-airflow-providers-imap==3.7.0
-apache-airflow-providers-smtp==1.8.1
-apache-airflow-providers-sqlite==3.9.1
-kafka-python==2.0.2
-mysql-connector-python==9.1.0
 psycopg2-binary==2.9.10
