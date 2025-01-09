@@ -53,4 +53,4 @@ ENTRYPOINT ["airflow"]
 EXPOSE 8080
 
 # Run Airflow scheduler and webserver
-CMD ["bash", "-c", "airflow db init && airflow scheduler & airflow webserver"]
+CMD ["bash", "-c", "airflow db init && airflow webserver"]
