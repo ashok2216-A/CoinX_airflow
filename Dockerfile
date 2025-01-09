@@ -53,8 +53,7 @@ RUN pip install --no-cache-dir \
     apache-airflow-providers-google \
     requests \
     gspread \
-    psycopg2-binary \
-    apache-airflow-providers-openlineage>=1.8.0
+    psycopg2-binary
 
 RUN pip install apache-airflow[postgres]
 
