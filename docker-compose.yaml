@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ashok2216
+      POSTGRES_PASSWORD: cfXIsePKztFo5ZQDGP1wCHiE9Qh8YHMT
+      POSTGRES_DB: etl_db_yvuk
+    ports:
+      - "5432:5432"
+
+  webserver:
+    build: .
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://ashok2216:cfXIsePKztFo5ZQDGP1wCHiE9Qh8YHMT@postgres:5432/etl_db_yvuk
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./secrets.json:/opt/airflow/secrets.json
+    command: webserver
+    depends_on:
+      - postgres
+
+  scheduler:
+    build: .
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://ashok2216:cfXIsePKztFo5ZQDGP1wCHiE9Qh8YHMT@postgres:5432/etl_db_yvuk
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    command: scheduler
+    depends_on:
+      - postgres
