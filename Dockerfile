@@ -64,7 +64,7 @@ COPY dags /opt/airflow/dags
 COPY secrets.json /opt/airflow/secrets.json
 
 # Initialize the Airflow database
-RUN airflow db init
+# RUN airflow db init
 
 # Expose the Airflow web server port
 EXPOSE 8080
