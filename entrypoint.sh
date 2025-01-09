@@ -1,9 +1,18 @@
 #!/bin/bash
+set -e
 
-# Initialize the Airflow database
-airflow db init
-
-# Start the Airflow webserver and scheduler
-airflow webserver -p 8080 &
-sleep 10
-airflow scheduler
+if [ "$1" = "webserver" ]; then
+    airflow db init
+    airflow users create \
+        --username admin \
+        --password admin \
+        --firstname Admin \
+        --lastname User \
+        --role Admin \
+        --email admin@example.com
+    exec airflow webserver
+elif [ "$1" = "scheduler" ]; then
+    exec airflow scheduler
+else
+    exec "$@"
+fi
