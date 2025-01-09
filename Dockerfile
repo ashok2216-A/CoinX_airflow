@@ -30,7 +30,7 @@
 FROM apache/airflow:2.6.1-python3.9
 
 # Set the working directory
-WORKDIR /opt/airflow
+WORKDIR /opt/render/project/src/
 
 # Copy requirements.txt into the container
 COPY requirements.txt .
@@ -43,12 +43,8 @@ USER airflow
 
 RUN pip install --upgrade pip
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --upgrade snowflake-connector-python pyOpenSSL
-
 # Copy your DAGs to the container
-COPY ./DAGs /opt/airflow/dags
+COPY ./dags /opt/render/project/src/dags
 
 # Set the entrypoint to Airflow's default entrypoint
 ENTRYPOINT ["airflow"]
@@ -56,5 +52,5 @@ ENTRYPOINT ["airflow"]
 # # Expose the Airflow web server port
 EXPOSE 8080
 
-RUN airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver -p 8080
-
+# Run Airflow scheduler and webserver
+CMD ["bash", "-c", "airflow db init && airflow scheduler & airflow webserver"]
