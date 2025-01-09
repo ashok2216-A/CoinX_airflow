@@ -42,12 +42,16 @@ RUN pip install -r requirements.txt
 # Copy your DAGs to the container
 COPY ./dags /opt/render/project/src/dags
 
-# Copy the entrypoint script to the container
+# Copy the entrypoint script to the container and set permissions
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# Switch to airflow user
+USER airflow
 
 # Use the entrypoint script to start the services
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose the Airflow web server port
 EXPOSE 8080
+
