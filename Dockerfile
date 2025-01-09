@@ -1,20 +1,28 @@
-FROM apache/airflow:2.7.2-python3.9
+# Use official Airflow image
+FROM apache/airflow:2.7.0-python3.9
 
-# Install additional Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Set environment variables for Airflow
+ENV AIRFLOW_HOME=/opt/airflow
+ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
+ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
 
-# Copy DAGs and secrets
-COPY dags/ /opt/airflow/dags/
+# Install necessary dependencies
+RUN pip install --no-cache-dir \
+    apache-airflow-providers-postgres \
+    apache-airflow-providers-google \
+    requests \
+    gspread \
+    psycopg2-binary
+
+# Copy your DAGs and scripts into the container
+COPY dags /opt/airflow/dags
 COPY secrets.json /opt/airflow/secrets.json
 
-# Switch to root user to set permissions
-USER root
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Set the working directory
+WORKDIR /opt/airflow
 
-# Switch back to airflow user
-USER airflow
+# Initialize the Airflow database
+RUN airflow db init
 
-# Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+# Start the Airflow web server and scheduler
+CMD ["bash", "-c", "airflow webserver & airflow scheduler"]
