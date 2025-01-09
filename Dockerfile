@@ -72,7 +72,7 @@ EXPOSE 8080
 CMD ["bash", "-c", "airflow db upgrade"]
 CMD ["bash", "-c", "airflow db reset"]
 CMD ["bash", "-c", "airflow db init"]
-CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
+CMD ["bash", "-c", "airflow webserver -p 8080"]
 
 
 # Start the Airflow web server and scheduler
