@@ -53,7 +53,8 @@ RUN pip install --no-cache-dir \
     apache-airflow-providers-google \
     requests \
     gspread \
-    psycopg2-binary
+    psycopg2-binary \
+    apache-airflow-providers-openlineage>=1.8.0
 
 RUN pip install apache-airflow[postgres]
 
@@ -66,5 +67,9 @@ COPY secrets.json /opt/airflow/secrets.json
 # Initialize the Airflow database
 RUN airflow db init
 
+# Expose the Airflow web server port
+EXPOSE 8080
+
 # Start the Airflow web server and scheduler
 CMD ["bash", "-c", "airflow webserver -p 8080 & airflow scheduler"]
+
