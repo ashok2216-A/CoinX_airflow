@@ -217,7 +217,7 @@ default_args = {
 dag = DAG(
     'hello_world_dag',
     default_args=default_args,
-    schedule_interval='@daily',
+    schedule_interval='* * * * *',
 )
 
 task = PythonOperator(
